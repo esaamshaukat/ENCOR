@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CCNP ENCOR 30-Day Study Tracker</title>
+<style>
+:root{--bg:#f3f6f8;--card:#fff;--ink:#14222e;--mut:#5b6b78;--line:#d5dee5;--pri:#0b5d7a;--priink:#fff;--alt:#f7fafc;--hd:#0b3b4f;
+--ns:#e6eaee;--ip:#fff0c2;--w:#d3efdc;--r:#c9e4f7;--nr:#ffd6d0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1820;--card:#16242f;--ink:#e6eef4;--mut:#9db0bf;--line:#2b3d4b;--pri:#4cb3d6;--priink:#06222d;--alt:#1a2a36;--hd:#0a2a38;--ns:#2a3944;--ip:#5a4a12;--w:#17502f;--r:#1b4663;--nr:#6a2a22}}
+:root[data-theme="dark"]{--bg:#0e1820;--card:#16242f;--ink:#e6eef4;--mut:#9db0bf;--line:#2b3d4b;--pri:#4cb3d6;--priink:#06222d;--alt:#1a2a36;--hd:#0a2a38;--ns:#2a3944;--ip:#5a4a12;--w:#17502f;--r:#1b4663;--nr:#6a2a22}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,Arial,sans-serif}
+header{background:var(--hd);color:#fff;padding:14px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+h1{font-size:19px;margin:0;font-weight:650}
+nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button{background:transparent;border:1px solid #ffffff55;color:#fff;padding:7px 14px;border-radius:6px;cursor:pointer;font:inherit}
+nav button.on{background:#fff;color:var(--hd);font-weight:600}
+main{max-width:1280px;margin:0 auto;padding:18px}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:16px}
+h2{font-size:17px;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.k{border:1px solid var(--line);border-radius:8px;padding:12px;background:var(--alt)}
+.k b{display:block;font-size:26px;line-height:1.1}.k span{color:var(--mut);font-size:13px}
+label{font-size:13px;color:var(--mut);display:block;margin-bottom:3px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:end}
+.bar{height:14px;background:var(--ns);border-radius:7px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pri)}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;max-height:75vh;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:1100px}
+th{position:sticky;top:0;background:var(--hd);color:#fff;text-align:left;padding:8px;font-weight:600;z-index:2;white-space:nowrap}
+td{padding:5px 8px;border-top:1px solid var(--line);vertical-align:middle}
+tbody tr:nth-child(even){background:var(--alt)}
+td a{color:var(--pri);font-weight:600}
+td input[type=text]{width:100%;min-width:200px}
+.s-ns{background:var(--ns)}.s-ip{background:var(--ip)}.s-w{background:var(--w)}.s-r{background:var(--r)}.s-nr{background:var(--nr)}
+.rt1,.rt2{background:var(--nr)}.rt3{background:var(--ip)}.rt4,.rt5{background:var(--w)}
+.due{color:#b3261e;font-weight:700}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.btn{background:var(--pri);color:var(--priink);border:0;border-radius:6px;padding:7px 14px;cursor:pointer;font:inherit}
+ol.g{margin:0;padding-left:20px}
+td.n{text-align:center;width:50px;color:var(--mut)}
+@media (max-width:600px){main{padding:10px}}
+</style></head><body>
+<header><h1>CCNP ENCOR 350-401 · 30-Day Study Tracker</h1>
+<nav id="nav"></nav></header>
+<main>
+<section id="dash" class="on">
+ <div class="card"><h2>Plan dates</h2><div class="row">
+  <div><label for="start">Plan start date</label><input type="date" id="start"></div>
+  <div><label for="exam">Target exam date (optional)</label><input type="date" id="exam"></div>
+  <div id="examinfo" style="color:var(--mut)"></div></div></div>
+ <div class="card"><h2>Progress</h2><div class="bar"><i id="pbar" style="width:0"></i></div>
+  <p id="ptxt" style="margin:6px 0 14px;color:var(--mut)"></p><div class="grid" id="kpis"></div></div>
+ <div class="card"><h2>Rating guide (1–5)</h2><ol class="g">
+  <li>Cannot explain the topic.</li><li>Recognize concepts but struggle to apply them.</li>
+  <li>Understand the basics but need hints or notes.</li><li>Can explain and answer most questions independently.</li>
+  <li>Can explain, configure/verify where relevant, and troubleshoot independently.</li></ol></div>
+ <div class="card"><button class="btn" id="reset">Reset all progress</button></div>
+</section>
+<section id="trk"><div class="tools">
+ <input id="q" placeholder="Search topics…" aria-label="Search topics">
+ <select id="fs" aria-label="Filter by status"></select>
+ <select id="fp" aria-label="Filter by phase"></select></div>
+ <div class="wrap"><table><thead><tr><th>#</th><th>Topic</th><th>Lesson</th><th>Phase</th><th>Status</th><th>Understanding</th><th>Exam readiness</th><th>Last studied</th><th>Notes</th><th>Next review</th></tr></thead><tbody id="tb"></tbody></table></div></section>
+<section id="plan"><div class="wrap"><table style="min-width:900px"><thead><tr><th>Day</th><th>Date</th><th>Main task</th><th>Revision / practice</th><th>Done</th><th>Notes / results</th></tr></thead><tbody id="pb"></tbody></table></div></section>
+<section id="how"><div class="card"><h2>How to use</h2><ol class="g">
+ <li><b>Dashboard:</b> set your plan start date (and optional exam date). All plan dates follow it.</li>
+ <li><b>Status:</b> change it in the Topic Tracker dropdown. Topics 1–55 start as Watched; 56–74 as Not started.</li>
+ <li><b>Ratings:</b> rate Understanding and Exam readiness 1–5 using the guide on the Dashboard. Be honest.</li>
+ <li><b>Last studied:</b> pick a date. Next review is suggested automatically: +1 day for ratings 1–2, +3 days for 3, +7 days for 4–5. It stays blank until both date and understanding are set, and turns red when due.</li>
+ <li><b>Notes:</b> type in the Notes box; it saves as you type. Use the search and filters above the table to find topics.</li>
+ <li><b>30-Day Plan:</b> set each day to No / In progress / Yes and add results.</li>
+ <li><b>Saving:</b> everything saves automatically in this browser on this computer. Use the same browser and don't clear site data. Progress doesn't sync between browsers or devices.</li>
+ <li><b>Lesson links:</b> built from each topic title in the CBT Nuggets URL format. If one doesn't open, search for the topic inside the course.</li></ol></div></section>
+</main>
+<script>
+const T=`Explain The Hierarchical Network Model Components
+Explain the Campus Architectural Layers
+Explain Enterprise Network Design Options
+Explain First Hop Redundancy Protocols
+Explain FHRP Operation
+Design High-Availability Techniques
+Review LAN Design
+Describe the SD-WAN Architecture
+Explain SD-WAN Control and Data Plane
+Explain SD-WAN Benefits and Features
+Explain Cisco Software-Defined Access
+Explain SD-Access Traffic Operation
+Explain SD-Access Onboarding and Wireless
+Review Software Defined Architectures
+Describe Quality of Service
+Perform QoS Marking
+Describe QoS Queuing
+Describe QoS Packet Drop Mechanisms
+Configure QoS with Cisco MQC
+Configure Cisco QoS Parameters
+Configure Policing and Shaping with MQC
+Review Quality of Service
+Describe Switching Mechanisms
+Describe Device and Network Virtualization
+Verify Data Virtualization Technologies
+Configure Data Virtualization Technologies
+Verify Data Path Security Technologies
+Configure Data Path Security Technologies
+Describe LISP Operation
+Describe VXLAN Operation
+Review Virtualization Technologies
+Explain VLAN Topologies
+Configure VLAN Trunking
+Describe Etherchannel Technology
+Configure Static and LACP Etherchannels
+Describe 802.1D Spanning-Tree Protocol
+Describe 802.1D STP Operation
+Calculate STP Topologies
+Explain STP Topology Changes
+Configure STP Macros and Timers
+Configure STP Topologies
+Review STP Concepts and Configuration
+Explain STP Topology Protection Mechanisms
+Explain STP Loop Protection Mechanisms
+Explain Rapid-PVST+
+Explain Multiple Spanning-Tree (MST)
+Review STP Protection RSTP/MST
+Understand EIGRP
+Understand OSPF
+Summarize and Filter with IPv4 OSPF
+Configure OSPFv3 for IPv6
+Configure OSPFv3 for IPv4
+Configure BGP
+Understand Policy-Based Routing
+Using Time Protocols
+Configure IPv4 NAT & PAT
+Configure FHRPs
+Describe Multicast Protocols
+Describe Multicast Trees
+Diagnose Network Problems
+Configure Flexible Netflow
+Configure SPAN RSPAN & ERSPAN
+Configure and Verify IP SLAs
+Configure Authentication & Authorization
+Configure iACLs and CoPP
+Describe Cisco Security Design Components
+Interpret Basic Python Constructs
+Understand Data Modelling and Serialization
+Understand Network Automation Scripts
+Configure and Verify NETCONF
+Understand REST-based APIs
+Configure and Verify RESTCONF
+Understand Cisco APIs & EEM
+Understand Agentless Network Automation`.split('\n');
+const BASE='https://learn.adept.at/cbtnuggets/cisco-ccnp-enterprise-core-350-401-encor-v12/skill/';
+const slug=t=>t.toLowerCase().replace(/&/g,' ').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+const ST=['Not started','In progress','Watched','Reviewed','Needs review'];
+const SC=['s-ns','s-ip','s-w','s-r','s-nr'];
+const PH=['Learn (Days 1–10)','Revise (Days 11–20)','Practice (Days 21–30)'];
+const iso=d=>d.toISOString().slice(0,10);
+const addDays=(s,n)=>{const d=new Date(s+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return iso(d)};
+const fmt=s=>s?new Date(s+'T12:00:00Z').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric',timeZone:'UTC'}):'';
+let S;
+const fresh=()=>({start:iso(new Date()),exam:'',t:T.map((_,i)=>({ph:i<55?1:0,st:i<55?2:0,u:'',r:'',d:'',n:''})),p:Array.from({length:30},()=>({c:'No',n:''}))});
+try{S=JSON.parse(localStorage.getItem('encor_tracker')||'null')}catch(e){}
+if(!S||!S.t||S.t.length!==74)S=fresh();
+const save=()=>{try{localStorage.setItem('encor_tracker',JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const opts=(a,v,blank)=>(blank?'<option value=""></option>':'')+a.map((x,i)=>`<option value="${i}"${String(i)===String(v)?' selected':''}>${x}</option>`).join('');
+const rate=v=>[1,2,3,4,5].map(n=>`<option${String(n)===String(v)?' selected':''}>${n}</option>`).join('');
+function nextRev(t){if(!t.d||!t.u)return'';const u=+t.u;return addDays(t.d,u<=2?1:u===3?3:7)}
+const today=()=>iso(new Date());
+function nrHtml(t){const n=nextRev(t);return n?`<span class="${n<=today()?'due':''}">${fmt(n)}</span>`:''}
+/* tabs */
+const tabs=[['dash','Dashboard'],['trk','Topic Tracker'],['plan','30-Day Plan'],['how','How to Use']];
+$('nav').innerHTML=tabs.map(([id,l])=>`<button data-t="${id}"${id==='dash'?' class="on"':''}>${l}</button>`).join('');
+$('nav').onclick=e=>{const id=e.target.dataset.t;if(!id)return;document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===id));[...$('nav').children].forEach(b=>b.classList.toggle('on',b.dataset.t===id))};
+/* dashboard */
+function dash(){
+ const n=S.t.length,c=k=>S.t.filter(t=>ST[t.st]===k).length;
+ const avg=k=>{const v=S.t.map(t=>+t[k]).filter(Boolean);return v.length?(v.reduce((a,b)=>a+b,0)/v.length).toFixed(2):'–'};
+ const done=c('Watched')+c('Reviewed'),pct=Math.round(done/n*100);
+ $('pbar').style.width=pct+'%';$('ptxt').textContent=`${done} of ${n} topics watched or reviewed (${pct}%)`;
+ const dueN=S.t.filter(t=>{const x=nextRev(t);return x&&x<=today()}).length;
+ const k=[['Total topics',n],['Lessons not started',c('Not started')],['Topics needing review',c('Needs review')],['Videos watched / reviewed',done],['Average understanding',avg('u')],['Average exam readiness',avg('r')],['Reviews due today',dueN],['Plan days complete',S.p.filter(p=>p.c==='Yes').length+' / 30']];
+ $('kpis').innerHTML=k.map(([l,v])=>`<div class="k"><b>${v}</b><span>${l}</span></div>`).join('');
+ let m='';if(S.exam){const d=Math.round((new Date(S.exam+'T12:00:00Z')-new Date(today()+'T12:00:00Z'))/864e5);m=d>=0?`${d} days until your exam`:`Exam date passed ${-d} days ago`}
+ $('examinfo').textContent=m;
+}
+$('start').value=S.start;$('exam').value=S.exam;
+$('start').onchange=e=>{S.start=e.target.value||iso(new Date());save();planRender()};
+$('exam').onchange=e=>{S.exam=e.target.value;save();dash()};
+$('reset').onclick=()=>{if(confirm('Reset all progress and notes?')){S=fresh();save();$('start').value=S.start;$('exam').value='';render()}};
+/* tracker */
+$('fs').innerHTML='<option value="">All statuses</option>'+ST.map((s,i)=>`<option value="${i}">${s}</option>`).join('');
+$('fp').innerHTML='<option value="">All phases</option>'+PH.map((s,i)=>`<option value="${i}">${s}</option>`).join('');
+function rows(){
+ const q=$('q').value.toLowerCase(),fs=$('fs').value,fp=$('fp').value;
+ $('tb').innerHTML=T.map((t,i)=>{const d=S.t[i];
+  if(q&&!t.toLowerCase().includes(q)||fs!==''&&d.st!=fs||fp!==''&&d.ph!=fp)return'';
+  return`<tr data-i="${i}"><td class="n">${i+1}</td><td>${t}</td><td><a href="${BASE+slug(t)}" target="_blank" rel="noopener noreferrer">Open lesson</a></td>
+  <td><select data-f="ph">${opts(PH,d.ph)}</select></td>
+  <td><select data-f="st" class="${SC[d.st]}">${opts(ST,d.st)}</select></td>
+  <td><select data-f="u" class="${d.u?'rt'+d.u:''}"><option value=""></option>${rate(d.u)}</select></td>
+  <td><select data-f="r" class="${d.r?'rt'+d.r:''}"><option value=""></option>${rate(d.r)}</select></td>
+  <td><input type="date" data-f="d" value="${d.d}"></td>
+  <td><input type="text" data-f="n" value="${d.n.replace(/"/g,'&quot;')}" placeholder="Notes"></td>
+  <td class="nr">${nrHtml(d)}</td></tr>`}).join('')}
+['q','fs','fp'].forEach(id=>$(id).oninput=rows);
+$('tb').addEventListener('input',e=>{
+ const tr=e.target.closest('tr'),f=e.target.dataset.f;if(!f)return;
+ const d=S.t[+tr.dataset.i];d[f]=e.target.value;
+ if(f==='st')e.target.className=SC[d.st];
+ if(f==='u'||f==='r')e.target.className=e.target.value?'rt'+e.target.value:'';
+ tr.querySelector('.nr').innerHTML=nrHtml(d);save();dash()});
+/* plan */
+function planTasks(){
+ const P=[];
+ const L=[[56,57],[58,59],[60,61],[62,63],[64],[65,66],[67,68],[69,70],[71,72],[73,74]];
+ L.forEach((a,i)=>{const names=a.map(n=>`#${n} ${T[n-1]}`).join(' + ');
+  const catch1=i===4,catch2=i===9;
+  P.push([`Watch ${names}`+(catch1?' (lighter day)':''),
+   catch1?'Catch-up: finish any unwatched lessons, then recap days 1–4 in your own words':catch2?'Catch-up and recap days 6–9; rate every new topic 1–5':i===0?'Quick lab or note review of today’s topics':`Recap yesterday’s topics (15 min); lab the key commands`])});
+ const g=[6,6,6,6,6,5,5,5,5,5];let s=1;
+ g.forEach((n,i)=>{const e=s+n-1;P.push([`Revise topics ${s}–${e}: ${T[s-1]} … ${T[e-1]}`,`Re-rate understanding; flag weak topics as Needs review; 10 practice questions`]);s=e+1});
+ [['Practical lab: VLANs, trunks, EtherChannel, STP','Verify with show commands; note gaps'],
+  ['Practical lab: OSPF, EIGRP, BGP, PBR','Break and fix the topology'],
+  ['Practical lab: NAT/PAT, FHRP, multicast, QoS (MQC)','Re-read weak notes'],
+  ['Troubleshooting drills: layer 2 and layer 3 faults','Write a one-page fault checklist'],
+  ['Mixed-topic revision: virtualization, SD-WAN, SD-Access','50 mixed questions; log misses'],
+  ['Mixed-topic revision: security, automation, assurance','50 mixed questions; log misses'],
+  ['Timed practice exam #1 (120 min)','Review every wrong answer'],
+  ['Weak-area repair using lowest-rated topics','Re-watch key lessons; redo labs'],
+  ['Timed practice exam #2 (120 min)','Review wrong answers; update ratings'],
+  ['Final prep: formula, command and protocol cheat sheet','Light review; rest well before the exam']].forEach(x=>P.push(x));
+ return P}
+const PT=planTasks();
+function planRender(){
+ $('pb').innerHTML=PT.map((t,i)=>{const p=S.p[i];
+  return`<tr data-i="${i}"><td class="n">${i+1}</td><td>${fmt(addDays(S.start,i))}</td><td>${t[0]}</td><td>${t[1]}</td>
+  <td><select class="${{No:'s-ns','In progress':'s-ip',Yes:'s-w'}[p.c]}">${['No','In progress','Yes'].map(x=>`<option${x===p.c?' selected':''}>${x}</option>`).join('')}</select></td>
+  <td><input type="text" value="${p.n.replace(/"/g,'&quot;')}" placeholder="Notes / results"></td></tr>`}).join('')}
+$('pb').addEventListener('input',e=>{
+ const tr=e.target.closest('tr'),p=S.p[+tr.dataset.i];
+ if(e.target.tagName==='SELECT'){p.c=e.target.value;e.target.className={No:'s-ns','In progress':'s-ip',Yes:'s-w'}[p.c]}else p.n=e.target.value;
+ save();dash()});
+function render(){rows();planRender();dash()}
+render();
+</script></body></html>
